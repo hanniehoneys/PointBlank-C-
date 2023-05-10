@@ -181,6 +181,9 @@ void AuthClient::HandlePacket(const std::vector<uint8_t>& buffer) {
     case eProtocolPacketReq::BASE_GET_SYSTEM_INFO_REQ:
         requestPacket = std::make_shared<PROTOCOL_BASE_GET_SYSTEM_INFO_REQ>(this, buffer);
         break;
+    case eProtocolPacketReq::BASE_GET_CHANNELLIST_REQ:
+        requestPacket = std::make_shared<PROTOCOL_BASE_GET_CHANNELLIST_REQ>(this, buffer);
+        break;
     default:
         Logger::PrintBad("Unhandled Opcode {}", *(std::uint16_t*)buffer.data());
         break;

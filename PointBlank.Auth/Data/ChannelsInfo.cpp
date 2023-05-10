@@ -35,3 +35,6 @@ std::vector<ChannelData> ChannelsInfo::GetChannels(std::uint8_t serverId) {
     }
     return channels;
 }
+std::size_t ChannelsInfo::GetChannelsCount(std::uint8_t serverId) {
+    return this->GetChannels(serverId).size();
+}

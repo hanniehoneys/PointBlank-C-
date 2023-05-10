@@ -17,6 +17,7 @@ public:
 
 public:
     std::uint32_t GetPageBits(std::uint8_t page);
+    std::int32_t GetMissionPrice(std::uint32_t missionId);
 
 private:
     std::vector<MissionData> m_data;

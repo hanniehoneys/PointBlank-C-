@@ -35,6 +35,7 @@ public:
     std::uint32_t GetCategory() const { return m_category; }
     std::uint32_t GetEquipType() const { return m_equip; }
     std::string GetName() const { return m_name; }
+    std::uint64_t GetObjectID() const { return m_objectId; }
 
     void SetID(const std::uint32_t& id) {
         m_id = id;

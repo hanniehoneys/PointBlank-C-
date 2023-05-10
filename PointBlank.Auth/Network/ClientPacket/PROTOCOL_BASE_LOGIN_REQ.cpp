@@ -75,15 +75,19 @@ void PROTOCOL_BASE_LOGIN_REQ::Run() {
             */
             return;
         }    
-        pAccount->SetClient(m_pClient);  
+        if (pAccount != NULL)
+            pAccount->SetClient(m_pClient); 
+        pAccount->SetPlayerID(pAccount->GetUserID(), 31); 
         m_pClient->SendPacket(PROTOCOL_BASE_LOGIN_ACK(eEventResult::SUCCESS, pAccount->GetUsername(), pAccount->GetUserID()));
-        //m_pClient->SendPacket(std::make_shared<PROTOCOL_AUTH_GET_POINT_CASH_ACK>(eEventResult::SUCCESS, pAccount->GetPoint(), pAccount->GetCash()));
+        m_pClient->SendPacket(PROTOCOL_AUTH_GET_POINT_CASH_ACK(eEventResult::SUCCESS, pAccount->GetPoint(), pAccount->GetCash()));
+        
         /*
-        pAccount->m_client = = this.client 
+        //if (account != null)
+            //account._connection = this._client;
         player.SetPlayerId(player.player_id, 31);
         player._clanPlayers = ClanManager.getClanPlayers(player.clan_id, player.player_id);
-        ====this._client.SendPacket((SendPacket) new PROTOCOL_BASE_LOGIN_ACK(0, player.login, player.player_id));
-        ====this._client.SendPacket((SendPacket) new PROTOCOL_AUTH_GET_POINT_CASH_ACK(0, player._gp, player._money));
+        //this._client.SendPacket((SendPacket) new PROTOCOL_BASE_LOGIN_ACK(0, player.login, player.player_id));
+        //this._client.SendPacket((SendPacket) new PROTOCOL_AUTH_GET_POINT_CASH_ACK(0, player._gp, player._money));
         if (player.clan_id > 0)
             this._client.SendPacket((SendPacket) new PROTOCOL_CS_MEMBER_INFO_ACK(player._clanPlayers));
         player._status.SetData(uint.MaxValue, player.player_id);

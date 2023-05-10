@@ -21,6 +21,7 @@ public:
 public:
     std::vector<ChannelData> GetChannels();
     std::vector<ChannelData> GetChannels(std::uint8_t serverId);
+    std::size_t GetChannelsCount(std::uint8_t serverId);
 
 private:
     std::vector<ChannelData> m_channels;

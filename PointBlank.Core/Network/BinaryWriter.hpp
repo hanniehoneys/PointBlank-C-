@@ -23,13 +23,9 @@ public:
     void Write(const std::vector<T>& val) {
         m_buffer.insert(m_buffer.end(), val.begin(), val.end());
     }
-    template <typename dataType>
-    void Write(std::string val) {
-        std::size_t valLength = val.size();
-        m_buffer.resize(m_position + sizeof(dataType) + valLength);
-        std::memcpy(m_buffer.data() + m_position, &valLength, sizeof(dataType));
-        std::memcpy(m_buffer.data() + m_position + sizeof(dataType), val.c_str(), valLength);
-        m_position += valLength + sizeof(dataType);
+    void Write(const char* val, std::size_t dataLength) {
+        std::memcpy(m_buffer.data() + m_position, val, dataLength);
+        m_position += dataLength;
     }
     void MemorySet(const std::int32_t& data, const std::size_t& length) {
         std::memset(m_buffer.data() + m_position, data, length);

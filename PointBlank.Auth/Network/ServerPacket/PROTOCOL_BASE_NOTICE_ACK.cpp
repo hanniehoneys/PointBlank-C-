@@ -14,8 +14,8 @@ PROTOCOL_BASE_NOTICE_ACK::PROTOCOL_BASE_NOTICE_ACK()
     Write<std::uint16_t>(0); //i guess this might be some color
     Write<std::uint32_t>(pConfig->GetChatColor());
     Write<std::uint32_t>(pConfig->GetAnnounceColor());
-    Write<char>(chatMessage.data(), chatMessage.size());
-    Write<char>(announceMessage.data(), announceMessage.size());
+    Write(chatMessage.c_str(), chatMessage.length());
+    Write(announceMessage.c_str(), announceMessage.length());
 
     AckPacketInterface::Pack();
 }

@@ -34,3 +34,21 @@ std::uint32_t MissionsInfo::GetPageBits(std::uint8_t page) {
         return 0;
     return m_pages[page];
 }
+std::int32_t MissionsInfo::GetMissionPrice(std::uint32_t missionId) {
+    for (const auto& mission : m_data) {
+        if (mission.m_id != missionId)
+            continue;
+        return mission.m_price;
+    }
+    return -1;
+}
+/*public static int GetMissionPrice(int id)
+    {
+      for (int index = 0; index < MissionsXml.Missions.Count; ++index)
+      {
+        MissionModel mission = MissionsXml.Missions[index];
+        if (mission.id == id)
+          return mission.price;
+      }
+      return -1;
+    }*/

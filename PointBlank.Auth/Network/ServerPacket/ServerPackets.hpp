@@ -2,6 +2,8 @@
 #include <Network/ServerPacket/PROTOCOL_BASE_LOGIN_ACK.hpp>
 #include <Network/ServerPacket/PROTOCOL_BASE_CONNECT_ACK.hpp>
 #include <Network/ServerPacket/PROTOCOL_BASE_GET_SYSTEM_INFO_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_BASE_GET_USER_INFO_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_BASE_GET_CHANNELLIST_ACK.hpp>
 #include <Network/ServerPacket/PROTOCOL_BASE_NOTICE_ACK.hpp>
 #include <Network/ServerPacket/PROTOCOL_BASE_URL_LIST_ACK.hpp>
 #include <Network/ServerPacket/PROTOCOL_BASE_BOOSTEVENT_INFO_ACK.hpp>

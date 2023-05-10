@@ -10,6 +10,7 @@
 
 PROTOCOL_BASE_GET_SYSTEM_INFO_ACK::PROTOCOL_BASE_GET_SYSTEM_INFO_ACK()
 : AckPacketInterface(eProtocolPacketAck::BASE_GET_SYSTEM_INFO_ACK, 0) {
+    auto exitUrl = GetAuthManager()->GetServerConfig()->GetExitURL();
     AckPacketInterface::Reserve(this->GetMemoryUsage());
     
     Write<std::uint16_t>(0);
@@ -53,11 +54,11 @@ PROTOCOL_BASE_GET_SYSTEM_INFO_ACK::PROTOCOL_BASE_GET_SYSTEM_INFO_ACK()
             Write<std::uint8_t>(channel.m_type);
     }
 
-    Write<std::uint16_t>(GetAuthManager()->GetServerConfig()->GetExitURL());
+    Write<std::uint16_t>(exitUrl.size());
+    Write<char>(exitUrl.data(), exitUrl.size());
 
     Write<std::uint8_t>(51);
-    Logger::Print("writing");
-    /*for (auto rankId = 0; rankId < 52; ++rankId) {
+    for (auto rankId = 0; rankId < 52; ++rankId) {
         auto awards = GetRanksInfo()->GetAwards(rankId);
         Write<std::uint8_t>(rankId);
         for (const auto& item : awards) {
@@ -69,30 +70,28 @@ PROTOCOL_BASE_GET_SYSTEM_INFO_ACK::PROTOCOL_BASE_GET_SYSTEM_INFO_ACK()
         }
         for (auto awardsCount = awards.size(); 4 - awardsCount > 0; ++awardsCount)
           Write<std::uint32_t>(0);
-    }*/
-    Logger::Print("finished XD");
-
+    }
     Write<std::uint8_t>(1);
-    Logger::Print("finished XD");
 
     AckPacketInterface::Pack();
 }
 
 std::size_t PROTOCOL_BASE_GET_SYSTEM_INFO_ACK::GetMemoryUsage() {
-    std::size_t dataLength = 297;
+    std::size_t dataLength = 297 + GetAuthManager()->GetServerConfig()->GetExitURL().size();
+    
     
     for (const auto& server : GetServersInfo()->GetServers()) {
         auto addressBytes = server.m_endpoint.address().to_v4().to_bytes();
-        dataLength += 13 + addressBytes.size() + GetChannelsInfo()->GetChannels(server.m_id).size();
+        dataLength += 13 + addressBytes.size() + GetChannelsInfo()->GetChannelsCount(server.m_id);
     }
-    /*for (auto rankId = 0; rankId < 52; ++rankId) {
+    for (auto rankId = 0; rankId < 52; ++rankId) {
         auto awards = GetRanksInfo()->GetAwards(rankId);
         dataLength++;
         for (const auto& item : awards)
             dataLength += 4;
         for (auto awardsCount = awards.size(); 4 - awardsCount > 0; ++awardsCount)
             dataLength += 4;
-    }*/
+    }
 
     return dataLength;
 }

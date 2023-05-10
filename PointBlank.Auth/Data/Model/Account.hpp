@@ -2,6 +2,10 @@
 #include <cstdint>
 #include <string>
 #include <memory>
+#include <Models/Account/Players/PlayerBonus.hpp>
+#include <Models/Account/Players/PlayerInventory.hpp>
+#include <Models/Account/Players/Character.hpp>
+#include <Models/Account/Title/PlayerTitle.hpp>
 
 class AuthClient;
 
@@ -31,6 +35,14 @@ public:
     AuthClient* GetClient() { return m_pClient; }
     void SetClient(AuthClient* pClient) { m_pClient = pClient; }
 
+    PlayerInventory* GetInventory() { return m_pInventory.get(); }
+    
+public:
+    void SetPlayerID(std::uint64_t userId, std::uint32_t flags);
+
+    void LoadAccountInfo(std::uint32_t flags);
+    void LoadInventory();
+
 private:
     std::uint64_t m_userId;
     std::string m_username;
@@ -39,8 +51,13 @@ private:
     std::int32_t m_point;
     std::int32_t m_cash;
     std::string m_token;
-
     bool m_bOnline;
-
     AuthClient* m_pClient;
+    
+    PlayerBonus m_bonus;
+    PlayerTitle m_title;
+    
+    std::shared_ptr<PlayerInventory> m_pInventory = std::make_shared<PlayerInventory>();
+    
+    std::vector<Character> m_characters = {};
 };
