@@ -32,7 +32,7 @@ void AuthClient::Start() {
     this->m_shift = static_cast<int>((this->m_sessionId % 7U) + 1);
     this->m_connectDate = system_clock::now();
 
-    this->SendPacket(MP(PROTOCOL_BASE_CONNECT_ACK, GetSessionSeed(), GetSessionID()));
+    this->SendPacket(PROTOCOL_BASE_CONNECT_ACK(GetSessionSeed(), GetSessionID()));
     std::thread(std::bind(&AuthClient::Read, shared_from_this())).detach();
 }
 void AuthClient::Close(int32_t delayMS, bool destroyConnection) {
@@ -134,19 +134,18 @@ void AuthClient::Read() {
     }
 }
 
-void AuthClient::SendPacket(std::shared_ptr<AckPacketInterface> packet) {
+void AuthClient::SendPacket(ISPacket packet) {
     try {
         if (!m_socket.is_open())
             return;
-            
-        packet->Build();
-        std::vector<uint8_t> bufferArray(packet->GetBuffer());
+        
+        std::vector<uint8_t> bufferArray(packet.m_data);
         if (bufferArray.size() < 2)
             return;
 
         BinaryWriter packetData(bufferArray.size() + 4);
         packetData.Write<uint16_t>(bufferArray.size());
-        packetData.Write<eProtocolPacketAck>(packet->GetOperationCode());
+        packetData.Write<uint16_t>(packet.m_type);
         packetData.Write(bufferArray.data(), bufferArray.size());
 
         if (packetData.GetSize() > 4) {
@@ -154,7 +153,7 @@ void AuthClient::SendPacket(std::shared_ptr<AckPacketInterface> packet) {
             auto bytesTransferred = m_socket.write_some(boost::asio::buffer(packetData.GetBuffer()));
 
             if (IsDebug())
-                Logger::Print("[S]: Opcode: {}\tData Length: {}", static_cast<uint16_t>(packet->GetOperationCode()), packetData.GetSize());
+                Logger::Print("[S]: Opcode: {}\tData Length: {}", static_cast<uint16_t>(packet.m_type), packetData.GetSize());
         }
     }
     catch(std::exception& e) {

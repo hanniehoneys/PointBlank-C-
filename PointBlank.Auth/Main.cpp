@@ -10,6 +10,7 @@
 #include <Data/ChannelsInfo.hpp>
 #include <Data/RanksInfo.hpp>
 #include <Data/MissionsInfo.hpp>
+#include <Managers/ShopManager.hpp>
 #include <AuthManager.hpp>
 
 void UpdateConsoleTitle() {
@@ -36,6 +37,8 @@ int main() {
 
         GetServersInfo()->Load();
         GetChannelsInfo()->Load(GetConfig()->GetServerID());
+        GetShopManager()->Load(1);
+        GetShopManager()->Load(2);
         GetRanksInfo()->Load();
         GetRanksInfo()->LoadAwards();
         GetMissionsInfo()->Load();

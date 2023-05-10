@@ -7,5 +7,6 @@ public:
     PROTOCOL_BASE_GET_SYSTEM_INFO_ACK();
     ~PROTOCOL_BASE_GET_SYSTEM_INFO_ACK() = default;
 
-    void Build() override;
+private:
+    std::size_t GetMemoryUsage();
 };

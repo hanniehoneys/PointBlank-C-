@@ -2,10 +2,8 @@
 #include <Protocol/Acknowledge.hpp>
 
 PROTOCOL_BASE_CHANNELTYPE_CONDITION_ACK::PROTOCOL_BASE_CHANNELTYPE_CONDITION_ACK()
-: AckPacketInterface(eProtocolPacketAck::BASE_BOOSTEVENT_INFO_ACK, 888) {
-    //
-}
-
-void PROTOCOL_BASE_CHANNELTYPE_CONDITION_ACK::Build() {
+: AckPacketInterface(eProtocolPacketAck::BASE_CHANNELTYPE_CONDITION_ACK, 888) {
     MemorySet(0, 888);
+
+    AckPacketInterface::Pack();
 }

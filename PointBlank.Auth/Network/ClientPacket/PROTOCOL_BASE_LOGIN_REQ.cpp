@@ -39,7 +39,7 @@ void PROTOCOL_BASE_LOGIN_REQ::Run() {
         else if (m_tokenLength < 32)
             logMessage.append(std::format("Has invalid token length with size of {}", m_tokenLength));
 
-        m_pClient->SendPacket(std::make_shared<PROTOCOL_SERVER_MESSAGE_DISCONNECTIONSUCCESS_ACK>(2147483904u, false));
+        m_pClient->SendPacket(PROTOCOL_SERVER_MESSAGE_DISCONNECTIONSUCCESS_ACK(2147483904u, false));
         //Logger::LogLogin(logMessage);
         m_pClient->Close(1000, true);
         return;
@@ -47,7 +47,7 @@ void PROTOCOL_BASE_LOGIN_REQ::Run() {
 
     if (!GetAccountManager()->GetAccount(m_token, m_pClient->GetAccount())) { //invalid account
         Logger::Print("Invalid Account");
-        m_pClient->SendPacket(std::make_shared<PROTOCOL_BASE_LOGIN_ACK>(eEventResult::LOGIN_INVALID_ACCOUNT, "", 0L));
+        m_pClient->SendPacket(PROTOCOL_BASE_LOGIN_ACK(eEventResult::LOGIN_INVALID_ACCOUNT, "", 0L));
         m_pClient->Close(1000, false);
         return;
     } else {
@@ -76,7 +76,7 @@ void PROTOCOL_BASE_LOGIN_REQ::Run() {
             return;
         }    
         pAccount->SetClient(m_pClient);  
-        m_pClient->SendPacket(std::make_shared<PROTOCOL_BASE_LOGIN_ACK>(eEventResult::SUCCESS, pAccount->GetUsername(), pAccount->GetUserID()));
+        m_pClient->SendPacket(PROTOCOL_BASE_LOGIN_ACK(eEventResult::SUCCESS, pAccount->GetUsername(), pAccount->GetUserID()));
         //m_pClient->SendPacket(std::make_shared<PROTOCOL_AUTH_GET_POINT_CASH_ACK>(eEventResult::SUCCESS, pAccount->GetPoint(), pAccount->GetCash()));
         /*
         pAccount->m_client = = this.client 

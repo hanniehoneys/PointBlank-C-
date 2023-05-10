@@ -1,24 +1,17 @@
 #include <Network/ServerPacket/PROTOCOL_BASE_GET_SYSTEM_INFO_ACK.hpp>
 #include <Protocol/Acknowledge.hpp>
 #include <AuthManager.hpp>
-#include <Data/MissionsInfo.hpp>
 #include <Data/ServersInfo.hpp>
 #include <Data/ChannelsInfo.hpp>
+#include <Data/RanksInfo.hpp>
+#include <Data/MissionsInfo.hpp>
+#include <Managers/ShopManager.hpp>
 #include <Managers/Server/ServerConfig.hpp>
 
 PROTOCOL_BASE_GET_SYSTEM_INFO_ACK::PROTOCOL_BASE_GET_SYSTEM_INFO_ACK()
 : AckPacketInterface(eProtocolPacketAck::BASE_GET_SYSTEM_INFO_ACK, 0) {
-    std::size_t dataLength = 297;
+    AckPacketInterface::Reserve(this->GetMemoryUsage());
     
-    for (const auto& server : GetServersInfo()->GetServers()) {
-        auto addressBytes = server.m_endpoint.address().to_v4().to_bytes();
-        dataLength += 13 + addressBytes.size() + GetChannelsInfo()->GetChannels(server.m_id).size();
-    }
-
-    AckPacketInterface::Reserve(dataLength);
-}
-
-void PROTOCOL_BASE_GET_SYSTEM_INFO_ACK::Build() {
     Write<std::uint16_t>(0);
     Write<std::uint8_t>(0);
     Write<std::uint8_t>(5);
@@ -62,25 +55,44 @@ void PROTOCOL_BASE_GET_SYSTEM_INFO_ACK::Build() {
 
     Write<std::uint16_t>(GetAuthManager()->GetServerConfig()->GetExitURL());
 
-    Write<std::uint8_t>(0);
-    Write<std::uint8_t>(1);
-    /*
-      this.writeC((byte) 51);
-      for (int rank = 0; rank < 52; ++rank)
-      {
-        List<ItemsModel> awards = RankXml.getAwards(rank);
-        this.writeC((byte) rank);
-        for (int index = 0; index < awards.Count; ++index)
-        {
-          ItemsModel itemsModel = awards[index];
-          if (ShopManager.getItemId(itemsModel._id) == null)
-            this.writeD(0);
-          else
-            this.writeD(ShopManager.getItemId(itemsModel._id).id);
+    Write<std::uint8_t>(51);
+    Logger::Print("writing");
+    /*for (auto rankId = 0; rankId < 52; ++rankId) {
+        auto awards = GetRanksInfo()->GetAwards(rankId);
+        Write<std::uint8_t>(rankId);
+        for (const auto& item : awards) {
+            auto* goodItem = GetShopManager()->GetItem(item.GetID());
+            if (!goodItem)
+                Write<std::uint32_t>(0);
+            else
+                Write<std::uint32_t>(goodItem->m_id);
         }
-        for (int count = awards.Count; 4 - count > 0; ++count)
-          this.writeD(0);
-      }
-      this.writeC((byte) 1);
-    */
+        for (auto awardsCount = awards.size(); 4 - awardsCount > 0; ++awardsCount)
+          Write<std::uint32_t>(0);
+    }*/
+    Logger::Print("finished XD");
+
+    Write<std::uint8_t>(1);
+    Logger::Print("finished XD");
+
+    AckPacketInterface::Pack();
+}
+
+std::size_t PROTOCOL_BASE_GET_SYSTEM_INFO_ACK::GetMemoryUsage() {
+    std::size_t dataLength = 297;
+    
+    for (const auto& server : GetServersInfo()->GetServers()) {
+        auto addressBytes = server.m_endpoint.address().to_v4().to_bytes();
+        dataLength += 13 + addressBytes.size() + GetChannelsInfo()->GetChannels(server.m_id).size();
+    }
+    /*for (auto rankId = 0; rankId < 52; ++rankId) {
+        auto awards = GetRanksInfo()->GetAwards(rankId);
+        dataLength++;
+        for (const auto& item : awards)
+            dataLength += 4;
+        for (auto awardsCount = awards.size(); 4 - awardsCount > 0; ++awardsCount)
+            dataLength += 4;
+    }*/
+
+    return dataLength;
 }

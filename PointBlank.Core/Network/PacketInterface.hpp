@@ -6,30 +6,42 @@
 #include <Network/BinaryWriter.hpp>
 #include <Network/BinaryReader.hpp>
 
-#define MP(packet, ...) std::make_shared<packet>(##__VA_ARGS__)
-
 class AuthClient;
 
-class AckPacketInterface : public BinaryWriter {
+class IPacketType {
 public:
-    AckPacketInterface() : BinaryWriter() {
+    IPacketType(const std::uint16_t& type) : m_type(type) {
         //
     }
-    AckPacketInterface(eProtocolPacketAck packet, std::size_t size) : BinaryWriter(size), m_packet(packet) {
+
+public:
+    std::uint16_t m_type;
+};
+
+class ISPacket : public IPacketType {
+public:
+    ISPacket(const std::uint16_t& type) : IPacketType(type) {
+        //
+    }
+
+public:
+    std::vector<uint8_t> m_data;
+};
+
+class AckPacketInterface : public ISPacket, public BinaryWriter {
+public:
+    AckPacketInterface(eProtocolPacketAck packet, std::size_t size) : BinaryWriter(size), ISPacket(static_cast<uint16_t>(packet)) {
         //
     }
     virtual ~AckPacketInterface() {
         //
     }
 
-    virtual void Build() = 0;
-
-    eProtocolPacketAck GetOperationCode() const {
-        return m_packet;
+public:
+    void Pack() {
+        m_data.resize(BinaryWriter::GetSize());
+        std::memcpy(m_data.data(), BinaryWriter::Get(), BinaryWriter::GetSize());
     }
-
-private:
-    eProtocolPacketAck m_packet;
 };
 
 

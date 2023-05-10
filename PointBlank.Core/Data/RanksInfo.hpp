@@ -26,6 +26,9 @@ public:
     void Load();
     void LoadAwards();
 
+public:
+    std::vector<ItemData> GetAwards(const std::uint8_t& rankId);
+
 private:
     std::vector<RankData> m_ranks;
 };

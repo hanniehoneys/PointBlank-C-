@@ -6,15 +6,16 @@
 PROTOCOL_BASE_NOTICE_ACK::PROTOCOL_BASE_NOTICE_ACK()
 : AckPacketInterface(eProtocolPacketAck::BASE_NOTICE_ACK, 0) {
     auto* pConfig = GetAuthManager()->GetServerConfig();
-    AckPacketInterface::Reserve(14 + pConfig->GetChatMessage().length() + pConfig->GetAnnounceMessage().length());
-}
+    std::string chatMessage = pConfig->GetChatMessage();
+    std::string announceMessage = pConfig->GetAnnounceMessage();
 
-void PROTOCOL_BASE_NOTICE_ACK::Build() {
-    auto* pConfig = GetAuthManager()->GetServerConfig();
-
+    AckPacketInterface::Reserve(14 + chatMessage.length() + announceMessage.length());
+    
     Write<std::uint16_t>(0); //i guess this might be some color
     Write<std::uint32_t>(pConfig->GetChatColor());
     Write<std::uint32_t>(pConfig->GetAnnounceColor());
-    Write<std::uint16_t>(pConfig->GetChatMessage());
-    Write<std::uint16_t>(pConfig->GetAnnounceMessage());
+    Write<char>(chatMessage.data(), chatMessage.size());
+    Write<char>(announceMessage.data(), announceMessage.size());
+
+    AckPacketInterface::Pack();
 }

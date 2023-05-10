@@ -15,7 +15,7 @@ public:
 
     ItemData(std::uint32_t id)
     : m_id(id), m_objectId(0), m_count(0) {
-        this->SetItemID(id);
+        this->SetID(id);
     }
 
     ItemData(std::uint32_t id, std::string name, std::uint32_t equip, std::uint64_t count, std::uint64_t objId = 0)
@@ -30,10 +30,21 @@ public:
     : m_id(item.m_id), m_category(item.m_category), m_equip(item.m_equip), m_name(item.m_name), m_objectId(item.m_objectId), m_count(item.m_count) {
     }
 
-private:
-    void SetItemID(std::uint32_t id) {
+public:
+    std::uint32_t GetID() const { return m_id; }
+    std::uint32_t GetCategory() const { return m_category; }
+    std::uint32_t GetEquipType() const { return m_equip; }
+    std::string GetName() const { return m_name; }
+
+    void SetID(const std::uint32_t& id) {
         m_id = id;
         m_category = Item::GetItemCategory(id);
+    }
+    void SetName(const std::string& name) {
+        m_name = name;
+    }
+    void SetCount(const std::uint64_t& count) {
+        m_count = count;
     }
 
 public:

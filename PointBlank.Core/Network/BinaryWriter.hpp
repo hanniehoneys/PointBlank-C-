@@ -6,7 +6,7 @@
 class BinaryWriter {
 public:
     void Reserve(std::size_t size) {
-        m_buffer.reserve(size);
+        m_buffer = std::vector<uint8_t>(size);
     }
 
     template <typename T>

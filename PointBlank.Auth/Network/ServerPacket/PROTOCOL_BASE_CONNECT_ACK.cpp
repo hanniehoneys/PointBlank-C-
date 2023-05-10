@@ -13,15 +13,6 @@ using boost::asio::ip::address;
 
 PROTOCOL_BASE_CONNECT_ACK::PROTOCOL_BASE_CONNECT_ACK(const uint16_t& sessionSeed, const uint32_t& sessionId) 
 : AckPacketInterface(eProtocolPacketAck::BASE_CONNECT_ACK, 157) {
-    /*
-    AckPacketInterface(eProtocolPacketAck packet, dataLength)
-    AckPacketInterface(eProtocolPacketAck::BASE_CONNECT_ACK, 157)
-    */
-    m_sessionSeed = sessionSeed;
-    m_sessionId = sessionId;
-}
-
-void PROTOCOL_BASE_CONNECT_ACK::Build() {
     unsigned char derEncoded[] = { 
         0x30, 0x81, 0x9F, 0x30, 0x0D, 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01, 
         0x05, 0x00, 0x03, 0x81, 0x8D, 0x00, 0x30, 0x81, 0x89, 0x02, 0x81, 0x81, 0x00, 0xAE, 0xD8, 0xF9, 
@@ -53,6 +44,8 @@ void PROTOCOL_BASE_CONNECT_ACK::Build() {
     Write(numArray2.data(), numArray2.size());
     Write<uint8_t>(3);
     Write<uint16_t>(24);
-    Write<uint16_t>(m_sessionSeed);
-    Write<uint32_t>(m_sessionId);
+    Write<uint16_t>(sessionSeed);
+    Write<uint32_t>(sessionId);
+
+    AckPacketInterface::Pack();
 }

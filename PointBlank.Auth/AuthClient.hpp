@@ -28,7 +28,8 @@ public:
     Account* GetAccount();
     
 public:
-    void SendPacket(std::shared_ptr<AckPacketInterface> packet);
+    void SendPacket(ISPacket packet);
+
     void HandlePacket(const std::vector<uint8_t>& buffer);
 
 private:
