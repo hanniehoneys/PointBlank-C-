@@ -1,2 +1,2 @@
 # PointBlank-Server
- Point Blank Private Server
+ PointBlank Private Server

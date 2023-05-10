@@ -1,0 +1,11 @@
+#pragma once
+#include <Network/ServerPacket/PROTOCOL_BASE_LOGIN_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_BASE_CONNECT_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_BASE_GET_SYSTEM_INFO_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_BASE_NOTICE_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_BASE_URL_LIST_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_BASE_BOOSTEVENT_INFO_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_BASE_STEPUP_MODE_INFO_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_BASE_CHANNELTYPE_CONDITION_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_AUTH_GET_POINT_CASH_ACK.hpp>
+#include <Network/ServerPacket/PROTOCOL_SERVER_MESSAGE_DISCONNECTIONSUCCESS_ACK.hpp>

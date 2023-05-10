@@ -1,0 +1,8 @@
+.vscode/
+.vs/
+.idea/
+backups/
+build/
+cmake-build-debug/
+Runtime/
+Config.rar
