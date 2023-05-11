@@ -13,10 +13,6 @@ bool PlayerFriend::Remove(const Friend& friendObj) {
     }
     return false;
 }
-void PlayerFriend::Remove(const std::size_t& index) {
-    if (index >= 0 && index < m_friends.size())
-        m_friends.erase(m_friends.begin() + index);
-}
 void PlayerFriend::Remove(const std::uint64_t& userId) {
     for (auto index = 0; index < m_friends.size(); ++index) {
         if (m_friends[index].GetUserID() != userId)
@@ -35,11 +31,6 @@ std::size_t PlayerFriend::GetIndex(const std::uint64_t& userId) {
         return static_cast<std::size_t>(index);
     }
     return -1;
-}
-Friend* PlayerFriend::Get(const std::size_t& index) {
-    if (index >= 0 && index < m_friends.size())
-        return &m_friends[index];
-    return NULL;
 }
 Friend* PlayerFriend::Get(const std::uint64_t& userId) {
     for (auto index = 0; index < m_friends.size(); ++index) {

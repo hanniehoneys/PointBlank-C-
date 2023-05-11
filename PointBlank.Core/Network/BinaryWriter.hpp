@@ -27,6 +27,13 @@ public:
         std::memcpy(m_buffer.data() + m_position, val, dataLength);
         m_position += dataLength;
     }
+    void WriteUnicode(const std::string& val, std::size_t dataLength) {
+        if (val.empty())
+            return;
+            
+        Write(reinterpret_cast<const uint8_t*>(val.c_str()), val.length() * sizeof(wchar_t));
+        MemorySet(0, dataLength - (val.length() * sizeof(wchar_t)));
+    }
     void MemorySet(const std::int32_t& data, const std::size_t& length) {
         std::memset(m_buffer.data() + m_position, data, length);
         m_position += length;

@@ -5,6 +5,7 @@
 #include <Models/Account/Players/PlayerBonus.hpp>
 #include <Models/Account/Players/PlayerInventory.hpp>
 #include <Models/Account/Players/Character.hpp>
+#include <Models/Account/Players/PlayerStats.hpp>
 #include <Models/Account/Players/PlayerFriend.hpp>
 #include <Models/Account/Title/PlayerTitle.hpp>
 #include <Models/Account/AccountStatus.hpp>
@@ -24,6 +25,10 @@ public:
     void SetPassword(const std::string& password);
     std::string GetDisplayName() const { return m_displayName; }
     void SetDisplayName(const std::string& displayName);
+    std::uint8_t GetNameColor() const { return m_nameColor; }
+    void SetNameColor(const std::uint8_t& colorCode);
+    std::int32_t GetRankID() const { return m_rankId; }
+    void SetRankID(const std::int32_t& rankId);
     std::int32_t GetPoint() const { return m_point; }
     void SetPoint(const std::int32_t& point);
     std::int32_t GetCash() const { return m_cash; }
@@ -37,6 +42,7 @@ public:
     AuthClient* GetClient() { return m_pClient; }
     void SetClient(AuthClient* pClient) { m_pClient = pClient; }
 
+    PlayerBonus GetBonus() { return m_bonus; }
     PlayerTitle GetTitle() { return m_title; }
 
     PlayerInventory* GetInventory() { return m_pInventory.get(); }
@@ -55,6 +61,8 @@ public:
     std::string m_username;
     std::string m_password;
     std::string m_displayName;
+    std::uint8_t m_nameColor;
+    std::int32_t m_rankId;
     std::int32_t m_point;
     std::int32_t m_cash;
     std::string m_token;
@@ -64,6 +72,7 @@ public:
     AccountStatus m_status;
     PlayerBonus m_bonus;
     PlayerTitle m_title;
+    PlayerStats m_statistic;
     PlayerFriend m_friend;
     
     std::shared_ptr<PlayerInventory> m_pInventory = std::make_shared<PlayerInventory>();

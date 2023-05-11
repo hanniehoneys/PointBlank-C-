@@ -29,7 +29,6 @@ public:
     void SetFlags(const std::uint64_t& flags) { m_flags = flags; }
     std::uint32_t GetAvailableSlots() const { return m_availableSlots; }
     void SetAvailableSlots(const std::uint32_t& slots) { m_availableSlots = slots; }
-    std::uint32_t GetEquiped(const std::uint8_t& index) { return m_equiped[index]; }
     void SetEquiped(std::uint32_t slot1, std::uint32_t slot2, std::uint32_t slot3) { m_equiped = { slot1, slot2, slot3 }; }
 
 private:

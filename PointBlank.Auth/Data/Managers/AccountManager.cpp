@@ -31,11 +31,25 @@ bool AccountManager::GetAccount(const std::string& token, Account* pAccount) {
             pAccount->SetUsername(row.username);
             pAccount->SetPassword(row.password);
             pAccount->SetDisplayName(row.displayName);
+            pAccount->SetNameColor(row.nameColor);
+            pAccount->SetRankID(row.rankId);
             pAccount->SetPoint(row.point);
             pAccount->SetCash(row.cash);
-            pAccount->SetToken(row.token);
+
+            pAccount->m_statistic.m_fights = static_cast<std::int32_t>(row.fights);
+            pAccount->m_statistic.m_fightsWin = static_cast<std::int32_t>(row.fightsWin);
+            pAccount->m_statistic.m_fightsLost = static_cast<std::int32_t>(row.fightsLost);
+            pAccount->m_statistic.m_fightsDraw = static_cast<std::int32_t>(row.fightsDraw);
+            pAccount->m_statistic.m_killsCount = static_cast<std::int32_t>(row.killsCount);
+            pAccount->m_statistic.m_deathsCount = static_cast<std::int32_t>(row.deathsCount);
+            pAccount->m_statistic.m_headshotsCount = static_cast<std::int32_t>(row.headshotsCount);
+            pAccount->m_statistic.m_escapesCount = static_cast<std::int32_t>(row.escapesCount);
+            pAccount->m_statistic.m_assistsCount = static_cast<std::int32_t>(row.assistsCount);
+            pAccount->m_statistic.m_totalKillsCount = static_cast<std::int32_t>(row.totalKillsCount);
+            pAccount->m_statistic.m_totalFightsCount = static_cast<std::int32_t>(row.totalFightsCount);
 
             pAccount->m_status.SetData(row.status, pAccount->GetUserID());
+            pAccount->SetToken(row.token);
             /*
             if (this.AddAccount(acc) && acc._isOnline)
               acc.setOnlineStatus(false);

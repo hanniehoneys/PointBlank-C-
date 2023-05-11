@@ -49,6 +49,13 @@ private:
 public:
     void SetOwnerID(const std::uint64_t& ownerId) { m_ownerId = ownerId; }
     void SetFlags(const std::uint64_t& flags) { m_flags = flags; }
+
+    std::uint32_t GetSightColor() const;
+    std::uint32_t GetMuzzle() const;
+    std::uint32_t GetFakeRank() const;
+    std::string GetFakeNick() const;
+    std::uint32_t GetFreePass() const;
+
     void SetSightColor(const std::uint32_t& sightColor) { m_sightColor = sightColor; }
     void SetMuzzle(const std::uint32_t& muzzle) { m_muzzle = muzzle; }
     void SetFakeRank(const std::uint32_t& fakeRank) { m_fakeRank = fakeRank; }

@@ -15,6 +15,12 @@ void Account::SetPassword(const std::string& password) {
 void Account::SetDisplayName(const std::string& displayName) {
     m_displayName = displayName;
 }
+void Account::SetNameColor(const std::uint8_t& colorCode) {
+    m_nameColor = colorCode;
+}
+void Account::SetRankID(const std::int32_t& rankId) {
+    m_rankId = rankId;
+}
 void Account::SetPoint(const std::int32_t& point) {
     m_point = point;
 }
