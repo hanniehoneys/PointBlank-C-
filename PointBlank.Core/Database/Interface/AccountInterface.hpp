@@ -84,6 +84,19 @@ namespace PlayerInterface {
         };
         using _traits = ::sqlpp::make_traits<::sqlpp::integer>;
     };
+    struct Status {
+        struct _alias_t {
+            static constexpr const char _literal[] = "Status";
+            using _name_t = sqlpp::make_char_sequence<sizeof(_literal), _literal>;
+            template <typename T>
+            struct _member_t {
+                T status;
+                T& operator()() { return status; }
+                const T& operator()() const { return status; }
+            };
+        };
+        using _traits = ::sqlpp::make_traits<::sqlpp::bigint>;
+    };
     struct Token {
         struct _alias_t {
             static constexpr const char _literal[] = "Token";
@@ -107,6 +120,7 @@ struct AccountDB
     PlayerInterface::DisplayName, 
     PlayerInterface::Point,
     PlayerInterface::Cash,
+    PlayerInterface::Status,
     PlayerInterface::Token> {
     struct _alias_t {
         static constexpr const char _literal[] = "accounts";

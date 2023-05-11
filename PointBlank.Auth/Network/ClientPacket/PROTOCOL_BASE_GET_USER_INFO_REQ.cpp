@@ -20,5 +20,5 @@ void PROTOCOL_BASE_GET_USER_INFO_REQ::Run() {
         pAccount->DiscountPlayerItems();
     */
 
-   m_pClient->SendPacket(PROTOCOL_BASE_GET_USER_INFO_ACK(pAccount));
+    m_pClient->SendPacket(PROTOCOL_BASE_GET_USER_INFO_ACK(pAccount));
 }

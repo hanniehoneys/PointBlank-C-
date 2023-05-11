@@ -5,7 +5,9 @@
 #include <Models/Account/Players/PlayerBonus.hpp>
 #include <Models/Account/Players/PlayerInventory.hpp>
 #include <Models/Account/Players/Character.hpp>
+#include <Models/Account/Players/PlayerFriend.hpp>
 #include <Models/Account/Title/PlayerTitle.hpp>
+#include <Models/Account/AccountStatus.hpp>
 
 class AuthClient;
 
@@ -35,15 +37,20 @@ public:
     AuthClient* GetClient() { return m_pClient; }
     void SetClient(AuthClient* pClient) { m_pClient = pClient; }
 
+    PlayerTitle GetTitle() { return m_title; }
+
     PlayerInventory* GetInventory() { return m_pInventory.get(); }
     
+    std::vector<Character> GetCharacters() { return m_characters; }
+    std::size_t GetCharactersCount() const { return m_characters.size(); }
+
 public:
     void SetPlayerID(std::uint64_t userId, std::uint32_t flags);
 
     void LoadAccountInfo(std::uint32_t flags);
     void LoadInventory();
 
-private:
+public:
     std::uint64_t m_userId;
     std::string m_username;
     std::string m_password;
@@ -54,8 +61,10 @@ private:
     bool m_bOnline;
     AuthClient* m_pClient;
     
+    AccountStatus m_status;
     PlayerBonus m_bonus;
     PlayerTitle m_title;
+    PlayerFriend m_friend;
     
     std::shared_ptr<PlayerInventory> m_pInventory = std::make_shared<PlayerInventory>();
     

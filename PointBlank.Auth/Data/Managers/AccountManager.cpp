@@ -35,6 +35,7 @@ bool AccountManager::GetAccount(const std::string& token, Account* pAccount) {
             pAccount->SetCash(row.cash);
             pAccount->SetToken(row.token);
 
+            pAccount->m_status.SetData(row.status, pAccount->GetUserID());
             /*
             if (this.AddAccount(acc) && acc._isOnline)
               acc.setOnlineStatus(false);

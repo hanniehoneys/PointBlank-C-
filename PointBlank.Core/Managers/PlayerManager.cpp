@@ -2,6 +2,7 @@
 #include <Database/Database.hpp>
 #include <Database/Interface/PlayerBonusInterface.hpp>
 #include <Database/Interface/PlayerItemsInterface.hpp>
+#include <Database/Interface/FriendsInterface.hpp>
 
 PlayerManager g_playerManager;
 PlayerManager* GetPlayerManager() {
@@ -42,4 +43,21 @@ std::vector<ItemData> PlayerManager::GetInventoryItems(const std::uint64_t& user
     }
 
     return items;
+}
+std::vector<Friend> PlayerManager::GetFriendList(const std::uint64_t& userId) {
+    std::vector<Friend> friends;
+    if (userId == 0L)
+        return friends;
+
+    FriendsDB friendsData{};
+    for (const auto &row : (*GetDatabase()->GetConnection())(select(all_of(friendsData)).from(friendsData).where(
+        friendsData.ownerId == userId
+    ).order_by(friendsData.friendId.asc()))) {
+        Friend friendInfo(row.friendId);
+        friendInfo.SetState(row.state);
+        friendInfo.SetRemoved(row.removed);
+        friends.push_back(std::move(friendInfo));
+    }
+
+    return friends;
 }

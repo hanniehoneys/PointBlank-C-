@@ -5,11 +5,13 @@ file(GLOB INCLUDE_FILES
     *.hpp
     **/*.hpp
     **/**/*.hpp
+    **/**/**/*.hpp
 )
 file(GLOB SOURCE_FILES
     *.cpp
     **/*.cpp
     **/**/*.cpp
+    **/**/**/*.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC

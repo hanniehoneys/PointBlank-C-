@@ -45,15 +45,12 @@ void Account::LoadAccountInfo(std::uint32_t flags) {
     }
     if ((flags & 2) == 2)
         m_bonus = GetPlayerManager()->GetPlayerBonus(m_userId);
+    if ((flags & 4) == 4) {
+        auto list = GetPlayerManager()->GetFriendList(m_userId);
+        if (list.size() > 0)
+            m_friend.m_friends = list;
+    }
     /*
-      if ((LoadType & 2) == 2)
-        this._bonus = PlayerManager.getPlayerBonusDB(this.player_id);
-      if ((LoadType & 4) == 4)
-      {
-        List<Friend> friendList = PlayerManager.getFriendList(this.player_id);
-        if (friendList.Count > 0)
-          this.FriendSystem._friends = friendList;
-      }
       if ((LoadType & 8) == 8)
       {
         this._event = PlayerManager.getPlayerEventDB(this.player_id);
